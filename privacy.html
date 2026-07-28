@@ -132,7 +132,7 @@
         <li>Spotify OAuth tokens if Spotify connection is enabled.</li>
       </ul>
       <p>Profile, songbook, performance history, and Friends social data are local-only in the current release lane. For Google Maps venues, the app stores only permitted place identifiers and user-created fields, then refreshes current venue names/details for display. Uninstalling the app or clearing app storage can remove this local data.</p>
-      <p>If you choose a profile photo from your photo library, Karaoke Tonight copies that image into app-owned local storage and stores only a local <code>profile-photos/...</code> reference on your device. The app resolves that reference from its app-owned storage at runtime and does not upload profile photos, sync them to a backend, access the camera, or request Contacts permission.</p>
+      <p>If you choose a profile photo from your photo library, Karaoke Tonight copies that image into private app storage on your device. The app does not upload profile photos, sync them to a backend, access the camera, or request Contacts permission.</p>
 
       <h3>Accounts</h3>
       <p>Karaoke Tonight does not create or require an app account in this release.</p>
