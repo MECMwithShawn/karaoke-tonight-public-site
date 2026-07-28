@@ -115,14 +115,14 @@
       <h2>Information The App Uses</h2>
 
       <h3>Location</h3>
-      <p>Karaoke Tonight asks for approximate or current location permission to search for nearby karaoke venues. Location is used for app functionality and is sent to Google Places when live venue search is configured.</p>
+      <p>Karaoke Tonight asks for precise or approximate current location permission to search for nearby karaoke venues. Location coordinates and any area-search text are used for app functionality and are sent to Google Maps Platform when live venue search is configured.</p>
 
       <h3>Local Device Data</h3>
       <p>The app may store the following on the device using local storage:</p>
       <ul>
-        <li>Favorite venues.</li>
+        <li>Favorite place identifiers and local save times. Current Google Maps venue details are refreshed for display and are not stored as favorite content.</li>
         <li>Profile preview preferences.</li>
-        <li>Optional profile photo URL.</li>
+        <li>Optional local profile photo selected from your photo library.</li>
         <li>Songbook entries.</li>
         <li>Performance history.</li>
         <li>Practice vocal range.</li>
@@ -130,32 +130,34 @@
         <li>Venue intel cache.</li>
         <li>Local friends, Tonight Plan, invite status, and friend performance ratings.</li>
         <li>Spotify OAuth tokens if Spotify connection is enabled.</li>
-        <li>Paid preview Preview state.</li>
       </ul>
-      <p>Profile, songbook, performance history, and Friends social data are local-only in the current release lane. Uninstalling the app or clearing app storage can remove this local data.</p>
-      <p>If you add a profile photo by entering an image URL, the app loads that image from the image host you choose. That host may receive the image request from your device. The current release lane does not upload profile photos, pick photos from your phone, or request photo-library access.</p>
+      <p>Profile, songbook, performance history, and Friends social data are local-only in the current release lane. For Google Maps venues, the app stores only permitted place identifiers and user-created fields, then refreshes current venue names/details for display. Uninstalling the app or clearing app storage can remove this local data.</p>
+      <p>If you choose a profile photo from your photo library, Karaoke Tonight copies that image into app-owned local storage and stores only a local <code>profile-photos/...</code> reference on your device. The app resolves that reference from its app-owned storage at runtime and does not upload profile photos, sync them to a backend, access the camera, or request Contacts permission.</p>
 
       <h3>Accounts</h3>
       <p>Karaoke Tonight does not create or require an app account in this release.</p>
       <p>No in-app account deletion flow is present because no Karaoke Tonight account exists in this release. Spotify sign-in or connection, if configured, is an external Spotify account connection and does not create a Karaoke Tonight account.</p>
       <p>The Friends feature stores friend names or handles, Tonight Plan text, invite status, and friend performance ratings locally on the device. Invites use the native share sheet only. The app does not request Contacts permission, upload a friend list, sync friend activity to a backend, or send automatic notifications in this lane.</p>
 
-      <h3>Google Places</h3>
-      <p>When configured, Karaoke Tonight uses Google Places to search for venues and show venue details such as name, address, phone, website, rating, hours, open status, photos, and location.</p>
+      <h3>Google Maps Platform</h3>
+      <p>When configured, Karaoke Tonight uses Google Maps Platform and the Places API to search for venues, display a Google map, and show venue details such as name, address, phone, website, rating, hours, open status, and location.</p>
+      <p>Google receives data needed to provide these features, including search terms, IP addresses, and latitude/longitude coordinates, and may use and retain that data to provide and improve Google products and services under the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. Use of Google Maps features and content is also subject to the <a href="https://maps.google.com/help/terms_maps/">Google Maps/Google Earth Additional Terms of Service</a>.</p>
+      <p>Karaoke Tonight does not store Google Maps business names, addresses, reviews, photos, or other Places content for offline reuse. It may store Google place identifiers, which Google permits customers to retain, and re-fetches current content when needed.</p>
 
       <h3>Supabase Public Crowd Data</h3>
-      <p>Karaoke Tonight may use Supabase with a public anon client for shared, crowd-sourced venue data:</p>
+      <p>Karaoke Tonight uses Supabase with persistent anonymous authentication for shared, crowd-sourced venue data:</p>
       <ul>
         <li>Public karaoke schedule submissions.</li>
         <li>Public venue intelligence reports such as queue length, estimated wait, crowd size, and host quality.</li>
       </ul>
-      <p>Personal profile, songbook, and performance history cloud sync is disabled until real account authentication and production row-level security are implemented.</p>
+      <p>Supabase creates an anonymous user identifier for this app installation. It is not a Karaoke Tonight account and is not populated with a name, email address, or phone number. The identifier is sent with public submissions and stored with them to enforce submission ownership, one vote per anonymous identity, and row-level security.</p>
+      <p>Personal profile, profile photo, favorites, songbook, performance history, Friends, Tonight Plan, and friend ratings are not sent to Supabase.</p>
 
       <h3>Music Services</h3>
       <p>Apple Music and Spotify actions open external services. Spotify account connection, when configured, uses OAuth PKCE with a public client ID. No Spotify client secret is stored in the app.</p>
 
       <h3>Purchases</h3>
-      <p>The current Expo Go lane uses a local Paid preview Preview only. No real purchases, subscriptions, StoreKit transactions, or RevenueCat entitlements are active in this lane.</p>
+      <p>Version 1.0 has no purchases, subscriptions, paid features, ads, or payment processing.</p>
 
       <h2>Tracking And Advertising</h2>
       <p>Karaoke Tonight does not intentionally include advertising SDKs or cross-app tracking in the current app code.</p>
@@ -163,14 +165,18 @@
       <h2>Data Sharing</h2>
       <p>Karaoke Tonight uses third-party services only to provide app functionality:</p>
       <ul>
-        <li>Google Places for venue search and venue details.</li>
+        <li>Google Maps Platform for venue search, venue details, and maps.</li>
         <li>Supabase for public crowd-sourced venue schedules and venue intel when configured.</li>
         <li>Spotify and Apple Music when users choose to open or connect those services.</li>
       </ul>
 
+      <h2>Data Retention And Deletion</h2>
+      <p>Local-only data remains on the device until it is removed in the app where a delete control exists, app storage is cleared, or the app is uninstalled.</p>
+      <p>Public schedule and venue-intelligence submissions, votes, and the associated anonymous Supabase identifier may be retained to provide public venue information, prevent duplicate voting, and enforce submission ownership. To request removal of public crowd data, use the Support URL below and provide the venue and general submission details needed to locate it. Do not include passwords, API keys, or other sensitive information.</p>
+
       <h2>Contact</h2>
-      <p>Support URL: <a href="https://github.com/MECMwithShawn/Karaoke-Tonight/issues">https://github.com/MECMwithShawn/Karaoke-Tonight/issues</a></p>
-      <p>Before App Store submission, replace this support URL with a dedicated Karaoke Tonight support or privacy contact if required.</p>
+      <p>Support URL: <a href="https://mecmwithshawn.github.io/karaoke-tonight-public-site/support.html">https://mecmwithshawn.github.io/karaoke-tonight-public-site/support.html</a></p>
+      <p>Terms of Use: <a href="https://mecmwithshawn.github.io/karaoke-tonight-public-site/terms.html">https://mecmwithshawn.github.io/karaoke-tonight-public-site/terms.html</a></p>
     </article>
   </main>
 </body>
